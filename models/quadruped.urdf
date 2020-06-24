@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+<robot name="{{ name }}">
+	<material name="black">
+		<color rgba="0 0 0 0.5"/>
+	</material>
+	<material name="blue">
+		<color rgba="0 0 1 1"/>
+	</material>
+	<material name="green">
+		<color rgba="0 1 0 1"/>
+	</material>
+	<material name="red">
+		<color rgba="1 0 0 1"/>
+	</material>
+	<material name="purple">
+		<color rgba="1 0 1 1"/>
+	</material>
+	<material name="yellow">
+		<color rgba="1 1 0 1"/>
+	</material>
+
+	<link name="body">
+		<visual>
+			<geometry>
+				<mesh filename="{{ body.model }}" scale="{{ scale }} {{ scale }} {{ scale }}"/>
+			</geometry>
+			<material name="black"/>
+		</visual>
+		<collision>
+			<geometry>
+				<mesh filename="{{ body.model }}" scale="{{ scale }} {{ scale }} {{ scale }}"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="{{ body.mass }}"/>
+			<inertia ixx="{{ body.ixx }}" ixy="{{ body.ixy }}" ixz="{{ body.ixz }}" iyy="{{ body.iyy }}" iyz="{{ body.iyz }}" izz="{{ body.izz }}"/>
+		</inertial>
+		<origin xyz="{{ origin.x }} {{ origin.y }} {{ origin.z }}"/>
+
+	</link>
+
+	{% for name, component in components %}
+	<link name="{{ appendage }}">
+		<visual>
+			<geometry>
+				<mesh filename="{{ component.model }}" scale="{{ scale }} {{ scale }} {{ scale }}"/>
+			</geometry>
+			<material name="{{ component.colour }}"/>
+		</visual>
+		<collision>
+			<geometry>
+				<mesh filename="{{ component.model }}" scale="{{ scale }} {{ scale }} {{ scale }}"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="{{ component.mass }}"/>
+			<inertia ixx="{{ component.ixx }}" ixy="{{ component.ixy }}" ixz="{{ component.ixz }}" iyy="{{ component.iyy }}" iyz="{{ component.iyz }}" izz="{{ component.izz }}"/>
+		</inertial>
+	</link>
+	{% endfor %}
+
+	{% for joint in joints %}
+	<joint name="{{ joint.name }}" type="revolute">
+		<parent link="{{ joint.parent }}"/>
+		<child link="{{ joint.child }}"/>
+		<origin xyz="{{ joint.x }} {{ joint.y }} {{ joint.z }}" rpy="{{ joint.rpy.x }} {{ joint.rpy.y }} {{ joint.rpy.z }}"/>
+		<axis xyz="{{ joint.axis.x }} {{ joint.axis.y }} {{ join.axis.z }}" />
+		<limit effort="{{ joint.effort }}" velocity="{{ joint.velocity }}" />
+		<dynamics damping="{{ joint.damping }}" friction="{{ joint.friction }}" />
+	</joint>
+	{% endfor %}
+</robot>
+
