@@ -20,28 +20,8 @@
 		<color rgba="1 1 0 1"/>
 	</material>
 
-	<link name="body">
-		<visual>
-			<geometry>
-				<mesh filename="{{ body.model }}" scale="{{ scale }} {{ scale }} {{ scale }}"/>
-			</geometry>
-			<material name="black"/>
-		</visual>
-		<collision>
-			<geometry>
-				<mesh filename="{{ body.model }}" scale="{{ scale }} {{ scale }} {{ scale }}"/>
-			</geometry>
-		</collision>
-		<inertial>
-			<mass value="{{ body.mass }}"/>
-			<inertia ixx="{{ body.ixx }}" ixy="{{ body.ixy }}" ixz="{{ body.ixz }}" iyy="{{ body.iyy }}" iyz="{{ body.iyz }}" izz="{{ body.izz }}"/>
-		</inertial>
-		<origin xyz="{{ origin.x }} {{ origin.y }} {{ origin.z }}"/>
-
-	</link>
-
 	{% for name, component in components %}
-	<link name="{{ appendage }}">
+	<link name="{{ name }}">
 		<visual>
 			<geometry>
 				<mesh filename="{{ component.model }}" scale="{{ scale }} {{ scale }} {{ scale }}"/>
@@ -60,14 +40,14 @@
 	</link>
 	{% endfor %}
 
-	{% for joint in joints %}
-	<joint name="{{ joint.name }}" type="revolute">
-		<parent link="{{ joint.parent }}"/>
-		<child link="{{ joint.child }}"/>
-		<origin xyz="{{ joint.x }} {{ joint.y }} {{ joint.z }}" rpy="{{ joint.rpy.x }} {{ joint.rpy.y }} {{ joint.rpy.z }}"/>
-		<axis xyz="{{ joint.axis.x }} {{ joint.axis.y }} {{ join.axis.z }}" />
-		<limit effort="{{ joint.effort }}" velocity="{{ joint.velocity }}" />
-		<dynamics damping="{{ joint.damping }}" friction="{{ joint.friction }}" />
+	{% for (parent, child, xyz, rpy, axis, servo) in joints %}
+	<joint name="{{ parent }}-{{ child }}" type="revolute">
+		<parent link="{{ parent }}"/>
+		<child link="{{ child }}"/>
+		<origin xyz="{{ xyz[0] }} {{ xyz[1] }} {{ xyz[2] }}" rpy="{{ rpy[0] }} {{ rpy[1] }} {{ rpy[2] }}"/>
+		<axis xyz="{{ axis[0] }} {{ axis[1] }} {{ axis[2] }}" />
+		<limit effort="{{ servo.effort }}" velocity="{{ servo.velocity }}" />
+		<dynamics damping="{{ servo.damping }}" friction="{{ servo.friction }}" />
 	</joint>
 	{% endfor %}
 </robot>

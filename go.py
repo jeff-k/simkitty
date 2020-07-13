@@ -11,15 +11,14 @@ p.setGravity(0,0,-9.8)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 planeId = p.loadURDF("plane.urdf")
 
-orientation = (0.0, 0.0, 2.0)
 orientation = p.getQuaternionFromEuler([0,0,0])
 
-knee = p.addUserDebugParameter('Knee', -0.7, 0.7, 0)
+#knee = p.addUserDebugParameter('Knee', -0.7, 0.7, 0)
 
-cat = Opencat(p, origin, orientation)
+cat = Opencat(p, (0, 0, 1), orientation)
 
 while True:
-    cat.setLeftLeg(p.readUserDebugParameter(knee))
+#    cat.setLeftLeg(p.readUserDebugParameter(knee))
     p.stepSimulation()
 
 print("done")

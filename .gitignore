@@ -131,3 +131,6 @@ dmypy.json
 # FreeCAD
 *.FCStd1
 *.FCStd
+
+# vim
+*.swp

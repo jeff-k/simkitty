@@ -1,17 +1,18 @@
 from . import Quadruped, Component, Servo
+from math import pi
 
-body = Component('opencat/files/cat-body-v2.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), scale=0.01)
-tibia = Component('opencat/files/cat-tibia-mg90s.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='blue')
-left_femur = Component('opencat/files/left-femur.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='red')
-right_femur = Component('opencat/files/right-femur.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='red')
-neck = Component('opencat/files/neck.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='blue')
-head = Component('opencat/files/skull.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='green')
-tail = Component('opencat/files/tail.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='green')
+body = Component('models/opencat/cat-body-v2.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0))
+tibia = Component('models/opencat/cat-tibia-mg90s.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='blue')
+left_femur = Component('models/opencat/left-femur.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='red')
+right_femur = Component('models/opencat/right-femur.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='red')
+neck = Component('models/opencat/neck.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='blue')
+head = Component('models/opencat/skull.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='green')
+tail = Component('models/opencat/tail.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='green')
 
 mg90d = Servo(pi, 1.0, 1.0, 1.0, 1.0)
 
 class Opencat(Quadruped):
-    self.components = [
+    components = [
         ('body', body),
         ('neck', neck),
         ('head', head),
@@ -26,16 +27,16 @@ class Opencat(Quadruped):
         ('tail', tail),
     ]
             
-    self.joints = {
-        ('body', 'neck'): mg90d,
-        ('body', 'left_arm'): mg90d,
-        ('body', 'right_arm'): mg90d,
-        ('body', 'left_leg'): mg90d,
-        ('body', 'right_leg'): mg90d,
-        ('body', 'tail'): mg90d,
-        ('neck', 'head'): mg90d,
-        ('left_arm', 'left_hand'):, mg90d,
-        ('right_arm', 'right_hand'): mg90d,
-        ('left_leg', 'left_foot'): mg90d,
-        ('right_leg', 'right_foot'): mg90d,
+    joints = {
+        ('body', 'neck'): ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('body', 'left_arm'): ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('body', 'right_arm'): ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('body', 'left_leg'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('body', 'right_leg'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('body', 'tail'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('neck', 'head'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('left_arm', 'left_hand'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('right_arm', 'right_hand'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('left_leg', 'left_foot'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
+        ('right_leg', 'right_foot'):  ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
     }
