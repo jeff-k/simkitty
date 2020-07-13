@@ -1,5 +1,7 @@
-from . import Quadruped, Component, Servo
+"""Opencat specification
+"""
 from math import pi
+from models import Quadruped, Component, Servo
 
 body = Component('models/opencat/cat-body-v2.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0))
 tibia = Component('models/opencat/cat-tibia-mg90s.stl', 1.0, (-0.1, 0.0, 1.0), (0.0, 0.0, 0.0), colour='blue')
@@ -26,7 +28,7 @@ class Opencat(Quadruped):
         ('right_foot', right_femur),
         ('tail', tail),
     ]
-            
+
     joints = {
         ('body', 'neck'): ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),
         ('body', 'left_arm'): ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), mg90d),

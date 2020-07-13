@@ -1,3 +1,5 @@
+"""Quadruped template
+"""
 from os import path
 import jinja2
 
@@ -30,22 +32,23 @@ class Servo:
 
 
 class Quadruped:
-    joints = []
+    """abstract Quadruped class
+    """
+    joints = {}
     components = []
     name = None
 
-    def __init__(self, p, origin, orientation=(0,0,0)):
-        self.p = p 
-        self.jointIndices = {}
-        n = 0
+    def __init__(self, env, origin, orientation=(0, 0, 0)):
+        self.env = env
+        self.joint_indices = {}
         urdf_joints = []
 
-        for parent, child in self.joints:
+        for index, (parent, child) in enumerate(self.joints):
             xyz, rpy, axis, servo = self.joints[(parent, child)]
-            self.jointIndices[f"{parent}-{child}"] = n
+            self.joint_indices[f"{parent}-{child}"] = index
             urdf_joints.append((parent, child, xyz, rpy, axis, servo))
-            n += 1
-      
+            index += 1
+
         with open('models/quadruped.urdf') as template_:
             template = jinja2.Template(template_.read())
 
@@ -53,10 +56,10 @@ class Quadruped:
                 scale=0.01, components=self.components,\
                 joints=urdf_joints)
 
-        print(urdf)
-        self.model = p.loadURDF(self.urdf, origin, orientation)
+        self.model = env.loadURDF(urdf, origin, orientation)
 
 
-    def setJoint(self, joint, target):
-        jointIndex = self.jointsIndices[joint]
-        self.p.setJointMotorControl2(self.model, jointIndex, p.POSITION_CONTROL, targetPosition=target)
+    def set_joint(self, joint, target):
+        joint_index = self.joint_indices[joint]
+        self.env.setJointMotorControl2(self.model,\
+                joint_index, self.env.POSITION_CONTROL, targetPosition=target)
