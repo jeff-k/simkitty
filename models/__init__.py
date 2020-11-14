@@ -1,6 +1,7 @@
 """Quadruped template
 """
 from os import path
+import tempfile
 import jinja2
 
 class Component:
@@ -55,8 +56,9 @@ class Quadruped:
         urdf = template.render(name=self.name,\
                 scale=0.01, components=self.components,\
                 joints=urdf_joints)
-
-        self.model = env.loadURDF(urdf, origin, orientation)
+        with tempfile.NamedTemporaryFile(mode='w', suffix='urdf') as tf:
+            print(urdf, file=tf)
+            self.model = env.loadURDF(tf.name, origin, orientation)
 
 
     def set_joint(self, joint, target):
